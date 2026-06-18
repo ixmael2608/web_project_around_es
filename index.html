@@ -38,6 +38,26 @@
           <ul class="cards__list"></ul>
         </section>
       </main>
+
+      <template id="card-template">
+        <li class="card">
+          <img class="card__image" alt="" />
+          <button
+            class="card__delete-button"
+            type="button"
+            aria-label="Eliminar tarjeta"
+          ></button>
+          <div class="card__description">
+            <h2 class="card__title"></h2>
+            <button
+              class="card__like-button"
+              type="button"
+              aria-label="Botón Me gusta"
+            ></button>
+          </div>
+        </li>
+      </template>
+
       <footer class="footer page__section">
         <p class="footer__copyright">© 2025 Around The U.S.</p>
       </footer>
@@ -49,23 +69,47 @@
             type="button"
           ></button>
           <h3 class="popup__title">Editar perfil</h3>
-          <form class="popup__form" id="edit-profile-form">
-            <input
-              class="popup__input popup__input_type_name"
-              name="name"
-              placeholder="Nombre"
-              type="text"
-            />
-            <input
-              class="popup__input popup__input_type_description"
-              name="description"
-              placeholder="Acerca de mí"
-              type="text"
-            />
-            <button class="button popup__button" type="submit">Guardar</button>
+          <form class="popup__form" id="edit-profile-form" novalidate>
+            <div class="popup__field">
+              <input
+                class="popup__input popup__input_type_name"
+                id="profile-name"
+                name="name"
+                placeholder="Nombre"
+                type="text"
+                minlength="2"
+                maxlength="40"
+                required
+              />
+              <span class="popup__input-error" id="profile-name-error"></span>
+            </div>
+            <div class="popup__field">
+              <input
+                class="popup__input popup__input_type_description"
+                id="profile-description"
+                name="description"
+                placeholder="Acerca de mí"
+                type="text"
+                minlength="2"
+                maxlength="200"
+                required
+              />
+              <span
+                class="popup__input-error"
+                id="profile-description-error"
+              ></span>
+            </div>
+            <button
+              class="button popup__button popup__button_inactive"
+              type="submit"
+              disabled
+            >
+              Guardar
+            </button>
           </form>
         </div>
       </div>
+
       <div class="popup" id="new-card-popup">
         <div class="popup__content">
           <button
@@ -74,22 +118,38 @@
             type="button"
           ></button>
           <h3 class="popup__title">Nuevo lugar</h3>
-          <form class="popup__form" id="new-card-form">
-            <input
-              class="popup__input popup__input_type_card-name"
-              name="place-name"
-              placeholder="Título"
-              required
-              type="text"
-            />
-            <input
-              class="popup__input popup__input_type_url"
-              name="link"
-              placeholder="Enlace a la imagen"
-              required
-              type="url"
-            />
-            <button class="button popup__button" type="submit">Crear</button>
+          <form class="popup__form" id="new-card-form" novalidate>
+            <div class="popup__field">
+              <input
+                class="popup__input popup__input_type_card-name"
+                id="card-name"
+                name="place-name"
+                placeholder="Título"
+                type="text"
+                minlength="2"
+                maxlength="30"
+                required
+              />
+              <span class="popup__input-error" id="card-name-error"></span>
+            </div>
+            <div class="popup__field">
+              <input
+                class="popup__input popup__input_type_url"
+                id="card-url"
+                name="link"
+                placeholder="Enlace a la imagen"
+                type="url"
+                required
+              />
+              <span class="popup__input-error" id="card-url-error"></span>
+            </div>
+            <button
+              class="button popup__button popup__button_inactive"
+              type="submit"
+              disabled
+            >
+              Crear
+            </button>
           </form>
         </div>
       </div>
@@ -104,24 +164,6 @@
           <p class="popup__caption"></p>
         </div>
       </div>
-      <template id="card-template">
-        <li class="card">
-          <img class="card__image" src="" alt="" />
-          <button
-            aria-label="Eliminar tarjeta"
-            class="card__delete-button"
-            type="button"
-          ></button>
-          <div class="card__description">
-            <h2 class="card__title"></h2>
-            <button
-              aria-label="Boton Me gusta"
-              class="card__like-button"
-              type="button"
-            ></button>
-          </div>
-        </li>
-      </template>
     </div>
     <script src="./scripts/index.js"></script>
   </body>
