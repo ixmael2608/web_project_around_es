@@ -1,29 +1,30 @@
+import {
+  enableValidation,
+  resetValidation,
+  validationConfig,
+} from "./validate.js";
+
 const initialCards = [
   {
     name: "Valle de Yosemite",
     link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_yosemite.jpg",
   },
-
   {
     name: "Lago Louise",
     link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_lake-louise.jpg",
   },
-
   {
     name: "Montañas Calvas",
     link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_bald-mountains.jpg",
   },
-
   {
     name: "Latemar",
     link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_latemar.jpg",
   },
-
   {
     name: "Parque Nacional de la Vanoise",
     link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_vanoise.jpg",
   },
-
   {
     name: "Lago di Braies",
     link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_lago.jpg",
@@ -54,6 +55,7 @@ const profileTitle = document.querySelector(".profile__title");
 const profileDescription = document.querySelector(".profile__description");
 
 const cardsList = document.querySelector(".cards__list");
+const cardTemplate = document.querySelector("#card-template");
 
 // Abrir modal
 function openModal(modalElement) {
@@ -63,6 +65,12 @@ function openModal(modalElement) {
 
 // Cerrar modal
 function closeModal(modalElement) {
+  const formElement = modalElement.querySelector(validationConfig.formSelector);
+
+  if (formElement) {
+    resetValidation(formElement, validationConfig);
+  }
+
   modalElement.classList.remove("popup_is-opened");
   document.removeEventListener(`keydown`, handleEscKey);
 }
@@ -123,7 +131,6 @@ function getCardElement(cardData) {
     name = "Titulo",
     link = "https://via.placeholder.com/300x200?text=Imagen+no+disponible",
   } = cardData;
-  const cardTemplate = document.querySelector("#card-template");
   const cardElement = cardTemplate.content
     .querySelector(".card")
     .cloneNode(true);
@@ -195,92 +202,6 @@ imagePopup.addEventListener(`click`, (e) => handleOverlayClick(e, imagePopup));
 
 newCardForm.addEventListener(`submit`, handleCardFormSubmit);
 formEdit.addEventListener(`submit`, handleProfileFormSubmit);
-
-const validationConfig = {
-  formSelector: `.popup__form`,
-  inputSelector: `.popup__input`,
-  submitButtonSelector: `.popup__button`,
-  inactiveButtonClass: `popup__button_inactive`,
-  inputErrorClass: `popup__input_type_error`,
-  errorClass: `popup__input-error_active`,
-};
-
-function showInputError(formElement, inputElement, errorMessage, config) {
-  const errorElement = formElement.querySelector(`#${inputElement.id}-error`);
-  inputElement.classList.add(config.inputErrorClass);
-  errorElement.textContent = errorMessage;
-  errorElement.classList.add(config.errorClass);
-}
-
-function hideInputError(formElement, inputElement, config) {
-  const errorElement = formElement.querySelector(`#${inputElement.id}-error`);
-  inputElement.classList.remove(config.inputErrorClass);
-  errorElement.textContent = "";
-  errorElement.classList.remove(config.errorClass);
-}
-
-function checkInputValidity(formElement, inputElement, config) {
-  if (!inputElement.validity.valid) {
-    showInputError(
-      formElement,
-      inputElement,
-      inputElement.validationMessage,
-      config,
-    );
-  } else {
-    hideInputError(formElement, inputElement, config);
-  }
-}
-
-function hasInvalidInput(inputList) {
-  return inputList.some((inputElement) => !inputElement.validity.valid);
-}
-
-function toggleButtonState(inputList, buttonElement, config) {
-  if (hasInvalidInput(inputList)) {
-    buttonElement.classList.add(config.inactiveButtonClass);
-    buttonElement.disabled = true;
-  } else {
-    buttonElement.classList.remove(config.inactiveButtonClass);
-    buttonElement.disabled = false;
-  }
-}
-
-function setEventListeners(formElement, config) {
-  const inputList = Array.from(
-    formElement.querySelectorAll(config.inputSelector),
-  );
-  const buttonElement = formElement.querySelector(config.submitButtonSelector);
-
-  toggleButtonState(inputList, buttonElement, config);
-
-  inputList.forEach((inputElement) => {
-    inputElement.addEventListener("input", () => {
-      checkInputValidity(formElement, inputElement, config);
-      toggleButtonState(inputList, buttonElement, config);
-    });
-  });
-}
-
-function enableValidation(config) {
-  const formList = Array.from(document.querySelectorAll(config.formSelector));
-  formList.forEach((formElement) => {
-    setEventListeners(formElement, config);
-  });
-}
-
-function resetValidation(formElement, config) {
-  const inputList = Array.from(
-    formElement.querySelectorAll(config.inputSelector),
-  );
-  const buttonElement = formElement.querySelector(config.submitButtonSelector);
-
-  inputList.forEach((inputElement) => {
-    hideInputError(formElement, inputElement, config);
-  });
-
-  toggleButtonState(inputList, buttonElement, config);
-}
 
 enableValidation(validationConfig);
 
