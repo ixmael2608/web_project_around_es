@@ -3,8 +3,8 @@ import type { CardData } from "../components/Cards.js";
 export const defaultFormConfig = {
   inputSelector: ".popup__input",
   buttonSubmitSelector: ".popup__button",
-  inactiveButtonClass: "popup__button-disabled",
-  errorInputClass: "form__input-type-error",
+  inactiveButtonClass: "popup__button_inactive",
+  errorInputClass: "popup__input_type_error",
   visibleError: "popup__input-error_active",
 };
 
