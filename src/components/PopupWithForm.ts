@@ -7,6 +7,7 @@ export class PopupWithForm extends Popup {
   private _inputList: HTMLInputElement[];
   private _handleFormSubmit: FormSubmitHandler;
   private _submitButton: HTMLButtonElement;
+  private _submitButtonText: string;
 
   constructor(popupSelector: string, handleSubmitForm: FormSubmitHandler) {
     super(popupSelector);
@@ -14,6 +15,7 @@ export class PopupWithForm extends Popup {
     this._inputList = Array.from(this._popupElement.querySelectorAll(".popup__input")) as HTMLInputElement[];
     this._handleFormSubmit = handleSubmitForm;
     this._submitButton = this._formElement.querySelector(".popup__button") as HTMLButtonElement;
+    this._submitButtonText = this._submitButton.textContent ?? "Guardar";
   }
 
   private getInputValues(): Record<string, string> {
@@ -41,7 +43,7 @@ export class PopupWithForm extends Popup {
   }
 
   renderLoading(isLoading: boolean): void {
-    this._submitButton.textContent = isLoading ? "Guardando..." : "Guardar";
+    this._submitButton.textContent = isLoading ? "Guardando..." : this._submitButtonText;
     this._submitButton.disabled = isLoading;
   }
 }

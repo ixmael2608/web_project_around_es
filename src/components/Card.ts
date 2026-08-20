@@ -20,6 +20,7 @@ export class Card {
   private _handleDelete: DeleteHandler;
   private _handleLike: LikeHandler;
   private _currentUserId: string;
+  private _likeButton?: HTMLButtonElement;
 
   constructor(
     data: CardDataApi,
@@ -62,6 +63,7 @@ export class Card {
     title.textContent = this._data.name;
     image.src = this._data.link;
     image.alt = this._data.name;
+    this._likeButton = likeButton;
     likeButton.classList.toggle("card__like-button_is-active", this._data.isLiked);
     deleteButton.style.display = this._data.owner === this._currentUserId ? "block" : "none";
     this.setEventListeners(cardElement);
@@ -70,5 +72,6 @@ export class Card {
 
   updateLikeStatus(isLiked: boolean): void {
     this._data.isLiked = isLiked;
+    this._likeButton?.classList.toggle("card__like-button_is-active", isLiked);
   }
 }

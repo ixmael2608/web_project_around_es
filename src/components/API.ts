@@ -39,31 +39,31 @@ export class Api {
         return response.json() as Promise<T>;
     }
 
-    getUserInfo(): Promise<UserDataApi> {
-        return this.request<UserDataApi>("/users/me");
+    async getUserInfo(): Promise<UserDataApi> {
+        return await this.request<UserDataApi>("/users/me");
     }
 
-    getInitialCards(): Promise<CardDataApi[]> {
-        return this.request<CardDataApi[]>("/cards/");
+    async getInitialCards(): Promise<CardDataApi[]> {
+        return await this.request<CardDataApi[]>("/cards/");
     }
 
-    editUserInfo(data: UserFormData): Promise<UserDataApi> {
-        return this.request<UserDataApi>("/users/me", { method: "PATCH", body: JSON.stringify(data) });
+    async editUserInfo(data: UserFormData): Promise<UserDataApi> {
+        return await this.request<UserDataApi>("/users/me", { method: "PATCH", body: JSON.stringify(data) });
     }
 
-    addCard(data: CardFormData): Promise<CardDataApi> {
-        return this.request<CardDataApi>("/cards/", { method: "POST", body: JSON.stringify(data) });
+    async addCard(data: CardFormData): Promise<CardDataApi> {
+        return await this.request<CardDataApi>("/cards/", { method: "POST", body: JSON.stringify(data) });
     }
 
-    deleteCard(cardId: string): Promise<void> {
-        return this.request<void>(`/cards/${cardId}`, { method: "DELETE" });
+    async deleteCard(cardId: string): Promise<void> {
+        await this.request<void>(`/cards/${cardId}`, { method: "DELETE" });
     }
 
-    changeLikeCardStatus(cardId: string, isLiked: boolean): Promise<CardDataApi> {
-        return this.request<CardDataApi>(`/cards/${cardId}/likes`, { method: isLiked ? "PUT" : "DELETE" });
+    async changeLikeCardStatus(cardId: string, isLiked: boolean): Promise<CardDataApi> {
+        return await this.request<CardDataApi>(`/cards/${cardId}/likes`, { method: isLiked ? "PUT" : "DELETE" });
     }
 
-    updateAvatar(data: { avatar: string }): Promise<UserDataApi> {
-        return this.request<UserDataApi>("/users/me/avatar", { method: "PATCH", body: JSON.stringify(data) });
+    async updateAvatar(data: { avatar: string }): Promise<UserDataApi> {
+        return await this.request<UserDataApi>("/users/me/avatar", { method: "PATCH", body: JSON.stringify(data) });
     }
 }

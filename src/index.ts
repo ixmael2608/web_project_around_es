@@ -99,7 +99,7 @@ const cardSection = new Section<CardDataApi>(
 
 const init = async () => {
     try {
-        const [userData, initialCards] = await Promise.all([
+        const [userData, serverCards] = await Promise.all([
             api.getUserInfo(),
             api.getInitialCards()
         ]);
@@ -114,7 +114,7 @@ const init = async () => {
         });
 
 
-        cardSection.renderItems(initialCards);
+        cardSection.renderItems(serverCards);
 
     } catch (err: unknown) {
         console.error("Fallo al cargar los datos iniciales:", err);
@@ -154,8 +154,8 @@ const editProfileButton = document.querySelector(".profile__edit-button") as HTM
 editProfileButton.addEventListener("click", () => {
     const userData = userInfo.getUserInfo();
     const editProfileFormElement = document.querySelector("#edit-profile-form") as HTMLFormElement;
-    const nameInput = editProfileFormElement.querySelector("#name") as HTMLInputElement;
-    const descriptionInput = editProfileFormElement.querySelector("#description") as HTMLInputElement;
+    const nameInput = editProfileFormElement.querySelector("#name-input") as HTMLInputElement;
+    const descriptionInput = editProfileFormElement.querySelector("#description-input") as HTMLInputElement;
 
     nameInput.value = userData.name;
     descriptionInput.value = userData.job;
